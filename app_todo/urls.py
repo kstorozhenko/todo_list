@@ -6,7 +6,10 @@ from app_todo.views import (HomeListView,
                             TodoUpdateView,
                             TodoDeleteView,
                             TodoCompleteView,
-                            TodoUndoView)
+                            TodoUndoView,
+                            TagCreateView,
+                            TagUpdateView,
+                            TagDeleteView)
 
 
 urlpatterns = [
@@ -17,4 +20,7 @@ urlpatterns = [
     path("todo/<int:pk>/delete/", TodoDeleteView.as_view(), name="todo_delete"),
     path("todo/<int:pk>/complete/", TodoCompleteView.as_view(), name="todo_complete"),
     path("todo/<int:pk>/undo/", TodoUndoView.as_view(), name="todo_undo"),
+    path("tag/create/", TagCreateView.as_view(), name="tag_create"),
+    path("tag/<int:pk>/update/", TagUpdateView.as_view(), name="tag_update"),
+    path("tag/<int:pk>/delete/", TagDeleteView.as_view(), name="tag_delete"),
 ]
