@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
+{% load bootstrap5 %}
+
 {% block content %}
 <h1>Todo List</h1>
 
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Content</th>
@@ -11,7 +13,9 @@
             <th>Deadline</th>
             <th>Done</th>
             <th>Tags</th>
-            <th>Actions</th>
+            <th>Update</th>
+            <th>Delete</th>
+            <th>Complete/Undo</th>
         </tr>
     </thead>
     <tbody>
@@ -27,12 +31,22 @@
                 {% endfor %}
             </td>
             <td>
-                <a href="{% url 'todo_update' todo.id %}">Update</a> |
-                <a href="{% url 'todo_delete' todo.id %}">Delete</a> |
+                <a class="btn btn-primary" href="{% url 'todo_update' todo.id %}">Update</a>
+            </td>
+            <td>
+                <a class="btn btn-danger" href="{% url 'todo_delete' todo.id %}">Delete</a>
+            </td>
+            <td>
                 {% if not todo.done %}
-                    <a href="{% url 'todo_complete' todo.id %}">Complete</a>
+                    <form method="post" action="{% url 'todo_complete' todo.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-success" type="submit">Complete</button>
+                    </form>
                 {% else %}
-                    <a href="{% url 'todo_undo' todo.id %}">Undo</a>
+                    <form method="post" action="{% url 'todo_undo' todo.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-warning" type="submit">Undo</button>
+                    </form>
                 {% endif %}
             </td>
         </tr>
@@ -40,6 +54,6 @@
     </tbody>
 </table>
 
-<a href="{% url 'todo_create' %}">Add New Task</a>
+<a class="btn btn-success" href="{% url 'todo_create' %}">Add New Task</a>
 
 {% endblock %}
