@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "app_todo.apps.AppTodoConfig",
-    "bootstrap5",
+    "bootstrap4",
+    "crispy_bootstrap4",
+    "crispy_forms"
 ]
 
 MIDDLEWARE = [
@@ -128,3 +130,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
