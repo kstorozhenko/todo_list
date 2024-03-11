@@ -3,57 +3,55 @@
 {% load bootstrap4 %}
 
 {% block content %}
-<h1>Todo List</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Content</th>
-            <th>Created At</th>
-            <th>Deadline</th>
-            <th>Done</th>
-            <th>Tags</th>
-            <th>Update</th>
-            <th>Delete</th>
-            <th>Complete/Undo</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for todo in object_list %}
-        <tr>
-            <td>{{ todo.content }}</td>
-            <td>{{ todo.created_at }}</td>
-            <td>{{ todo.deadline }}</td>
-            <td>{{ todo.done }}</td>
-            <td>
-                {% for tag in todo.tags.all %}
-                    {{ tag.name }}
-                {% endfor %}
-            </td>
-            <td>
-                <a class="btn btn-primary" href="{% url 'todo_update' todo.id %}">Update</a>
-            </td>
-            <td>
-                <a class="btn btn-danger" href="{% url 'todo_delete' todo.id %}">Delete</a>
-            </td>
-            <td>
-                {% if not todo.done %}
-                    <form method="post" action="{% url 'todo_complete' todo.id %}">
-                        {% csrf_token %}
-                        <button class="btn btn-success" type="submit">Complete</button>
-                    </form>
-                {% else %}
-                    <form method="post" action="{% url 'todo_undo' todo.id %}">
-                        {% csrf_token %}
-                        <button class="btn btn-warning" type="submit">Undo</button>
-                    </form>
-                {% endif %}
-            </td>
-        </tr>
+<div class="container">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h1>Todo List</h1>
+    </div>
+    <div class="col-md-4 text-right">
+      <a class="btn btn-secondary" href="{% url 'todo_create' %}">Add New Task</a>
+    </div>
+  </div>
+  {% for todo in object_list %}
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h5>
+        <strong>{{ todo.content }}</strong>
+        {% if todo.done %}
+        <span class="badge badge-success">Done</span>
+        {% else %}
+        <span class="badge badge-danger">Not done</span>
+        {% endif %}
+      </h5>
+      <h6 class="text-muted">
+        Created: {{ todo.created_at }}
+        {% if not todo.done %}
+        | Deadline: {{ todo.deadline }}
+        {% endif %}
+      </h6>
+      <p>
+        {% for tag in todo.tags.all %}
+        <span class="badge badge-primary">{{ tag.name }}</span>
         {% endfor %}
-    </tbody>
-</table>
-
-<a class="btn btn-success" href="{% url 'todo_create' %}">Add New Task</a>
-
+      </p>
+      <a class="btn" href="{% url 'todo_update' todo.id %}"><strong>Update</strong></a>
+      <a class="btn" href="{% url 'todo_delete' todo.id %}"><strong>Delete</strong></a>
+    </div>
+    <div class="col-md-4 text-right">
+      {% if not todo.done %}
+      <form method="post" action="{% url 'todo_complete' todo.id %}" class="d-inline-block">
+        {% csrf_token %}
+        <button class="btn btn-success" type="submit">Complete</button>
+      </form>
+      {% else %}
+      <form method="post" action="{% url 'todo_undo' todo.id %}" class="d-inline-block">
+        {% csrf_token %}
+        <button class="btn btn-secondary" type="submit">Undo</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+  <hr>
+  {% endfor %}
+</div>
 {% endblock %}

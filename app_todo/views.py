@@ -2,25 +2,27 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
+from app_todo.forms import TodoForm
 from app_todo.models import Todo, Tag
 
 
 class HomeListView(generic.ListView):
     model = Todo
     template_name = "todo_list.html"
+    paginate_by = 5
 
 
 class TodoCreateView(generic.CreateView):
     model = Todo
+    form_class = TodoForm
     template_name = "todo_form.html"
-    fields = ["content", "deadline", "done", "tags"]
     success_url = reverse_lazy("home")
 
 
 class TodoUpdateView(generic.UpdateView):
     model = Todo
+    form_class = TodoForm
     template_name = "todo_form.html"
-    fields = ["content", "deadline", "done", "tags"]
     success_url = reverse_lazy("home")
 
 
