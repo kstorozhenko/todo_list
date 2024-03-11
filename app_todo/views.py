@@ -18,13 +18,13 @@ class TagListView(generic.ListView):
 class TodoCreateView(generic.CreateView):
     model = Todo
     template_name = "todo_form.html"
-    fields = ["content", "created_at", "deadline", "done", "tags"]
+    fields = ["content", "deadline", "done", "tags"]
 
 
 class TodoUpdateView(generic.UpdateView):
     model = Todo
     template_name = "todo_form.html"
-    fields = ["content", "created_at", "deadline", "done", "tags"]
+    fields = ["content", "deadline", "done", "tags"]
 
 
 class TodoDeleteView(generic.DeleteView):
@@ -48,3 +48,20 @@ class TodoUndoView(generic.View):
         todo.save()
         return redirect('')
 
+
+class TagCreateView(generic.CreateView):
+    model = Tag
+    template_name = "tag_form.html"
+    fields = ['name']
+
+
+class TagUpdateView(generic.UpdateView):
+    model = Tag
+    template_name = "tag_form.html"
+    fields = ['name']
+
+
+class TagDeleteView(generic.DeleteView):
+    model = Tag
+    template_name = "tag_confirm_delete.html"
+    success_url = reverse_lazy('tags')
