@@ -34,7 +34,7 @@ class TodoDeleteView(generic.DeleteView):
 
 class TodoCompleteView(generic.View):
     def post(self, request, *args, **kwargs):
-        todo = get_object_or_404(Todo, pk=kwargs['pk'])
+        todo = get_object_or_404(Todo, pk=kwargs["pk"])
         todo.done = True
         todo.save()
         return redirect(reverse_lazy("home"))
@@ -42,7 +42,7 @@ class TodoCompleteView(generic.View):
 
 class TodoUndoView(generic.View):
     def post(self, request, *args, **kwargs):
-        todo = get_object_or_404(Todo, pk=kwargs['pk'])
+        todo = get_object_or_404(Todo, pk=kwargs["pk"])
         todo.done = False
         todo.save()
         return redirect(reverse_lazy("home"))
