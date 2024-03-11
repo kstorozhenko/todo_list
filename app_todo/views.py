@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from django.views import generic
 
-# Create your views here.
+from app_todo.models import Todo
+
+
+class HomeListView(generic.ListView):
+    model = Todo
+    template_name = "todo_list.html"
+
