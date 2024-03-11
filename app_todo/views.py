@@ -10,21 +10,18 @@ class HomeListView(generic.ListView):
     template_name = "todo_list.html"
 
 
-class TagListView(generic.ListView):
-    model = Tag
-    template_name = "tag_list.html"
-
-
 class TodoCreateView(generic.CreateView):
     model = Todo
     template_name = "todo_form.html"
     fields = ["content", "deadline", "done", "tags"]
+    success_url = reverse_lazy("home")
 
 
 class TodoUpdateView(generic.UpdateView):
     model = Todo
     template_name = "todo_form.html"
     fields = ["content", "deadline", "done", "tags"]
+    success_url = reverse_lazy("home")
 
 
 class TodoDeleteView(generic.DeleteView):
@@ -47,6 +44,11 @@ class TodoUndoView(generic.View):
         todo.done = False
         todo.save()
         return redirect(reverse_lazy("home"))
+
+
+class TagListView(generic.ListView):
+    model = Tag
+    template_name = "tag_list.html"
 
 
 class TagCreateView(generic.CreateView):
