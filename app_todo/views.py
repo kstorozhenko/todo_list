@@ -38,7 +38,7 @@ class TodoCompleteView(generic.View):
         todo = get_object_or_404(Todo, pk=kwargs['pk'])
         todo.done = True
         todo.save()
-        return redirect('')
+        return redirect(reverse_lazy("home"))
 
 
 class TodoUndoView(generic.View):
@@ -46,22 +46,24 @@ class TodoUndoView(generic.View):
         todo = get_object_or_404(Todo, pk=kwargs['pk'])
         todo.done = False
         todo.save()
-        return redirect('')
+        return redirect(reverse_lazy("home"))
 
 
 class TagCreateView(generic.CreateView):
     model = Tag
     template_name = "tag_form.html"
-    fields = ['name']
+    fields = ["name"]
+    success_url = reverse_lazy("tags")
 
 
 class TagUpdateView(generic.UpdateView):
     model = Tag
     template_name = "tag_form.html"
-    fields = ['name']
+    fields = ["name"]
+    success_url = reverse_lazy("tags")
 
 
 class TagDeleteView(generic.DeleteView):
     model = Tag
     template_name = "tag_confirm_delete.html"
-    success_url = reverse_lazy('tags')
+    success_url = reverse_lazy("tags")
