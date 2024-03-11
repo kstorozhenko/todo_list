@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Todo List</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Content</th>
+            <th>Created At</th>
+            <th>Deadline</th>
+            <th>Done</th>
+            <th>Tags</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for todo in object_list %}
+        <tr>
+            <td>{{ todo.content }}</td>
+            <td>{{ todo.created_at }}</td>
+            <td>{{ todo.deadline }}</td>
+            <td>{{ todo.done }}</td>
+            <td>
+                {% for tag in todo.tags.all %}
+                    {{ tag.name }}
+                {% endfor %}
+            </td>
+            <td>
+                <a href="{% url 'todo_update' todo.id %}">Update</a> |
+                <a href="{% url 'todo_delete' todo.id %}">Delete</a> |
+                {% if not todo.done %}
+                    <a href="{% url '' todo.id %}">Complete</a>
+                {% else %}
+                    <a href="{% url '' todo.id %}">Undo</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url '' %}">Add New Task</a>
+
+{% endblock %}
