@@ -30,9 +30,9 @@
                 <a href="{% url 'todo_update' todo.id %}">Update</a> |
                 <a href="{% url 'todo_delete' todo.id %}">Delete</a> |
                 {% if not todo.done %}
-                    <a href="{% url '' todo.id %}">Complete</a>
+                    <a href="{% url 'todo_complete' todo.id %}">Complete</a>
                 {% else %}
-                    <a href="{% url '' todo.id %}">Undo</a>
+                    <a href="{% url 'todo_undo' todo.id %}">Undo</a>
                 {% endif %}
             </td>
         </tr>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -33,4 +33,18 @@ class TodoDeleteView(generic.DeleteView):
     success_url = reverse_lazy("home")
 
 
+class TodoCompleteView(generic.View):
+    def post(self, request, *args, **kwargs):
+        todo = get_object_or_404(Todo, pk=kwargs['pk'])
+        todo.done = True
+        todo.save()
+        return redirect('')
+
+
+class TodoUndoView(generic.View):
+    def post(self, request, *args, **kwargs):
+        todo = get_object_or_404(Todo, pk=kwargs['pk'])
+        todo.done = False
+        todo.save()
+        return redirect('')
 
