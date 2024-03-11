@@ -15,5 +15,8 @@ class Todo(models.Model):
     done = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag, blank=True, related_name="tags")
 
+    class Meta:
+        ordering = ["-created_at", "done"]
+
     def __str__(self):
         return self.content
