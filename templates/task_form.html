@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h1>{% if form.instance.pk %}Update{% else %}Create{% endif %} Todo</h1>
+<h1>{% if form.instance.pk %}Update{% else %}Create{% endif %} Task</h1>
 
 <form method="post">
   {% csrf_token %}

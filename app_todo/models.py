@@ -8,12 +8,12 @@ class Tag(models.Model):
         return self.name
 
 
-class Todo(models.Model):
+class Task(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField(blank=True, null=True)
     done = models.BooleanField(default=False)
-    tags = models.ManyToManyField(Tag, blank=True, related_name="tags")
+    tags = models.ManyToManyField(Tag, blank=True, related_name="tasks")
 
     class Meta:
         ordering = ["-created_at", "done"]

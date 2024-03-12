@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from app_todo.models import Todo, Tag
+from app_todo.models import Task, Tag
 
-admin.site.register(Todo)
+admin.site.register(Task)
 admin.site.register(Tag)

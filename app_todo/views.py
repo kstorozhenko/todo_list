@@ -2,49 +2,44 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from app_todo.forms import TodoForm
-from app_todo.models import Todo, Tag
+from app_todo.forms import TaskForm
+from app_todo.models import Task, Tag
 
 
 class HomeListView(generic.ListView):
-    model = Todo
-    template_name = "todo_list.html"
+    model = Task
+    template_name = "task_list.html"
     paginate_by = 5
 
+    def get_queryset(self):
+        return Task.objects.order_by("done", "-created_at")
 
-class TodoCreateView(generic.CreateView):
-    model = Todo
-    form_class = TodoForm
-    template_name = "todo_form.html"
+
+class TaskCreateView(generic.CreateView):
+    model = Task
+    form_class = TaskForm
+    template_name = "task_form.html"
     success_url = reverse_lazy("home")
 
 
-class TodoUpdateView(generic.UpdateView):
-    model = Todo
-    form_class = TodoForm
-    template_name = "todo_form.html"
+class TaskUpdateView(generic.UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = "task_form.html"
     success_url = reverse_lazy("home")
 
 
-class TodoDeleteView(generic.DeleteView):
-    model = Todo
-    template_name = "todo_confirm_delete.html"
+class TaskDeleteView(generic.DeleteView):
+    model = Task
+    template_name = "task_confirm_delete.html"
     success_url = reverse_lazy("home")
 
 
-class TodoCompleteView(generic.View):
+class TaskStatusUpdateView(generic.View):
     def post(self, request, *args, **kwargs):
-        todo = get_object_or_404(Todo, pk=kwargs["pk"])
-        todo.done = True
-        todo.save()
-        return redirect(reverse_lazy("home"))
-
-
-class TodoUndoView(generic.View):
-    def post(self, request, *args, **kwargs):
-        todo = get_object_or_404(Todo, pk=kwargs["pk"])
-        todo.done = False
-        todo.save()
+        task = get_object_or_404(Task, pk=kwargs["pk"])
+        task.done = not task.done
+        task.save()
         return redirect(reverse_lazy("home"))
 
 
