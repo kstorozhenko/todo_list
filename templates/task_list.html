@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h1>Task List</h1>
+    </div>
+    <div class="col-md-4 text-right">
+      <a class="btn btn-secondary" href="{% url 'task_create' %}">Add New Task</a>
+    </div>
+  </div>
+  {% for task in object_list %}
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h5>
+        <strong>{{ task.content }}</strong>
+        {% if task.done %}
+        <span class="badge badge-success">Done</span>
+        {% else %}
+        <span class="badge badge-danger">Not done</span>
+        {% endif %}
+      </h5>
+      <h6 class="text-muted">
+        Created: {{ task.created_at|date:"d.m.Y H:i" }}
+        {% if not task.done %}
+        | Deadline: {{ task.deadline|date:"d.m.Y H:i" }}
+        {% endif %}
+      </h6>
+      <p>
+        {% for tag in task.tags.all %}
+        <span class="badge badge-primary">{{ tag.name }}</span>
+        {% endfor %}
+      </p>
+      <a class="btn" href="{% url 'task_update' task.id %}"><strong>Update</strong></a>
+      <a class="btn" href="{% url 'task_delete' task.id %}"><strong>Delete</strong></a>
+    </div>
+    <div class="col-md-4 text-right">
+      <form method="post" action="{% url 'task_status_update' task.id %}" class="d-inline-block">
+        {% csrf_token %}
+        {% if not task.done %}
+        <button class="btn btn-success" type="submit">Complete</button>
+        {% else %}
+        <button class="btn btn-secondary" type="submit">Undo</button>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+  <hr>
+  {% endfor %}
+</div>
+{% endblock %}
